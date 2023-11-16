@@ -1,20 +1,15 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import css from './App.module.css';
 
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    const sringifiedContacts = localStorage.getItem('contacts');
-    return JSON.parse(sringifiedContacts) || [];
-  });
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contactsStore.contacts);
+  const filter = useSelector(state => state.contactsStore.filter);
 
   const onAddContactForm = userData => {
     const isExist = contacts.some(
@@ -24,11 +19,17 @@ export const App = () => {
       alert(`${userData.name} is already in contacts`);
       return;
     }
-    setContacts(prevState => [...prevState, userData]);
+
+    const addContactAction = { type: 'contacts/addContact', payload: userData };
+    dispatch(addContactAction);
   };
 
   const onAddFilterChange = filterData => {
-    setFilter(filterData);
+    const filterContacts = {
+      type: 'contacts/filteredContacts',
+      payload: filterData,
+    };
+    dispatch(filterContacts);
   };
 
   const filterElements = contacts => {
@@ -38,7 +39,8 @@ export const App = () => {
   };
 
   const onDeleteBtnClick = id => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== id));
+    const deleteContactAction = { type: 'contacts/deleteContact', payload: id };
+    dispatch(deleteContactAction);
   };
 
   const filteredContacts = filterElements(contacts);
