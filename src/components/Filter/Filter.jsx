@@ -5,13 +5,9 @@ import { useDispatch } from 'react-redux';
 export function Filter() {
   const dispatch = useDispatch();
 
-  const onAddFilterChange = filterData => {
-    dispatch(filterContacts(filterData));
-  };
-
   const onInputChange = event => {
     const filterData = event.currentTarget.value;
-    onAddFilterChange(filterData);
+    dispatch(filterContacts(filterData));
   };
 
   return (

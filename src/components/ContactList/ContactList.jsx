@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import css from './ContactList.module.css';
 import { deleteContact } from 'redux/contacts/contacts.reducer';
+import { selectContacts, selectFilter } from 'redux/selectors';
 
 export const ContactList = () => {
-  const contacts = useSelector(state => state.contactsStore.contacts);
-  const filter = useSelector(state => state.filterStore.filter);
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const onDeleteBtnClick = id => {
