@@ -4,7 +4,7 @@ import { deleteContact } from 'redux/contacts/contacts.reducer';
 
 export const ContactList = () => {
   const contacts = useSelector(state => state.contactsStore.contacts);
-  const filter = useSelector(state => state.contactsStore.filter);
+  const filter = useSelector(state => state.filterStore.filter);
   const dispatch = useDispatch();
 
   const onDeleteBtnClick = id => {
